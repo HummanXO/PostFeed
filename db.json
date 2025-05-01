@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "imageURL": "https://example.com/images/photo1.jpg",
+      "author": "John",
+      "text": "Beautiful sunset today!",
+      "timestamp": "2025-04-30T12:00:00Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "author": "Alice",
+      "text": "Wow, amazing view!",
+      "timestamp": "2025-04-30T12:05:00Z"
+    }
+  ]
+}
