@@ -26,7 +26,7 @@ class TableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
         ])
     }
 

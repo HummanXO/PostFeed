@@ -18,9 +18,34 @@ class NetworkManager {
     }
     
     enum APIs: String {
-    case users = "users/"
-    case posts = "post/"
-    case comments = "comments/"
+    case users = "users"
+    case posts = "posts"
+    case comments = "comments"
+    }
+    
+    func fetchUserPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
+        guard let url = baseUrl?.appending(path: APIs.posts.rawValue) else {
+            print("Invalid Url")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error making Task \(error.localizedDescription)")
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data {
+                do {
+                    let result = try JSONDecoder().decode([Post].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(.success(result))
+                    }
+                }
+                catch {
+                    print("Error decoding Data")
+                }
+            }
+        }.resume()
     }
     
     func postCreatePost(post: Post, completion: @escaping (Result<Post, Error>) -> Void) {
@@ -34,7 +59,7 @@ class NetworkManager {
         request.httpMethod = HTTPMethods.post.rawValue.uppercased()
         request.httpBody = data
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print("Error making Task \(error.localizedDescription)")
             }
@@ -76,7 +101,7 @@ class NetworkManager {
         }.resume()
     }
     
-    func postUser(user: User, completion: @escaping (Result<User, Error>) -> Void) {
+    func createUser(user: User, completion: @escaping (Result<User, Error>) -> Void) {
         guard let url = baseUrl?.appendingPathComponent(APIs.users.rawValue) else {
             print("Invalid Url")
             return
@@ -134,5 +159,6 @@ class NetworkManager {
             }
         }.resume()
     }
+    
     
 }
